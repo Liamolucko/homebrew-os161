@@ -1,7 +1,9 @@
 # homebrew-os161
 
 [Homebrew] formulae for installing [System/161] and an [OS/161]
-cross-compiling toolchain on OS X.
+cross-compiling toolchain on macOS.
+
+This is a fork of [benesch/homebrew-os161] updated to get it working in 2024.
 
 **Supported versions:**
 
@@ -16,17 +18,41 @@ sources][161-download].
 
 ## Quick start
 
+### Intel
+
 With [Homebrew] installed, run
 
 ```bash
-$ brew tap benesch/os161
+$ brew tap liamolucko/os161
 $ brew install os161-toolchain
 ```
 
 then follow the standard OS/161 spinup guide.
 
+### Apple Silicon
+
+Installing on Apple Silicon is a bit tricker, because GCC and GDB don't support it[^1]. That means that you need to install the Intel versions.
+
+To do that, you can install an Intel version of Homebrew alongside your Apple Silicon version, by adding `arch -x86_64` to the start of the regular Homebrew installer:
+
+```bash
+$ arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Then you can follow the same instructions as for Intel machines, but using the absolute path of Intel Homebrew (since you've probably left Apple Silicon Homebrew as first in your `PATH`):
+
+```bash
+$ /usr/local/bin/brew tap liamolucko/os161
+$ /usr/local/bin/brew install os161-toolchain
+```
+
+`os161-binutils` and `sys161` work just fine on Apple Silicon though, so feel free to install those using normal Homebrew and only use the Intel version for `os161-gcc` and `os161-gdb`.
+
+[^1]: [There are patches to get GCC working][gcc-patches], which Homebrew automatically uses and so `brew install gcc` works fine; however, they only go down to GCC 6, and OS/161 uses GCC 4. GDB doesn't work at all.
 
 ## Detailed installation instructions
+
+If you're using Apple Silicon, follow the above instructions to install Intel Homebrew and then replace `brew` with `/usr/local/bin/brew` in all these commands.
 
 ### Homebrew tap
 
@@ -35,7 +61,7 @@ Then, add this repository as a [custom tap] so Homebrew can find the
 OS161-specific formula:
 
 ```bash
-$ brew tap benesch/os161
+$ brew tap liamolucko/os161
 ```
 
 ### System/161
@@ -117,6 +143,8 @@ See the [OS/161 guides and resources] for next steps.
 [Homebrew]: http://brew.sh
 [System/161]: http://os161.eecs.harvard.edu/#sys161
 [OS/161]: http://os161.eecs.harvard.edu/
+[benesch/homebrew-os161]: https://github.com/benesch/homebrew-os161
 [OS/161 guides and resources]: http://os161.eecs.harvard.edu/resources/
 [161-download]: http://os161.eecs.harvard.edu/download/
+[gcc-patches]: https://github.com/iains/gcc-13-branch
 [custom tap]: https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/brew-tap.md
