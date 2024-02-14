@@ -9,7 +9,7 @@ class Os161Gcc < Formula
   depends_on "gmp"
   depends_on "libmpc"
   depends_on "mpfr"
-  depends_on "cloog"
+  depends_on "cloog@0.18"
 
   resource "isl" do
     url "https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.12.2.tar.bz2"
