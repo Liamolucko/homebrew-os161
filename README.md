@@ -31,7 +31,7 @@ then follow the standard OS/161 spinup guide.
 
 ### Apple Silicon
 
-Installing on Apple Silicon is a bit tricker, because GCC and GDB don't support it[^1]. That means that you need to install the Intel versions.
+Installing on Apple Silicon is a bit tricker, because GCC and GDB don't support it[^1]. That means that you need to install the Intel versions, and run them through Rosetta.
 
 To do that, you can install an Intel version of Homebrew alongside your Apple Silicon version, by adding `arch -x86_64` to the start of the regular Homebrew installer:
 
